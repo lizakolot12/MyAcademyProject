@@ -23,4 +23,16 @@
     <style name="Theme.MyAcademyProject.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.MyAcademyProject.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/rating_not_active</item>
+        <item name="colorControlActivated">@color/rating_active</item>
+    </style>
+
+    <style name="PeopleInfoText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:lines">2</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>
