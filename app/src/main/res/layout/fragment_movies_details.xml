@@ -96,7 +96,7 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_top" />
 
         <TextView
-            android:id="@+id/tv_categoties"
+            android:id="@+id/tv_categories"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
@@ -120,7 +120,7 @@
             android:stepSize="1.0"
             android:theme="@style/RatingBar"
             app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@+id/tv_categoties" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_categories" />
 
         <TextView
             android:id="@+id/tv_reviews"

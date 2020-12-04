@@ -10,4 +10,5 @@
     <dimen name="card_top_margin">27</dimen>
     <dimen name="text_padding">4dp</dimen>
     <dimen name="top_margin">44dp</dimen>
+    <dimen name="like_size">32dp</dimen>
 </resources>

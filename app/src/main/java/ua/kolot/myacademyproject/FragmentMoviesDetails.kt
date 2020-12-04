@@ -13,8 +13,8 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_movies_details, container, false)
-        view.findViewById<View>(R.id.lb_back).setOnClickListener(this)
-        view.findViewById<View>(R.id.back_img).setOnClickListener(this)
+        view.findViewById<View>(R.id.tv_back).setOnClickListener(this)
+        view.findViewById<View>(R.id.iv_back).setOnClickListener(this)
         return view
     }
 
