@@ -1,7 +1,9 @@
 <resources>
     <dimen name="general_margin">16dp</dimen>
-    <dimen name="middle_margin">32dp</dimen>
+    <dimen name="midi_margin">12dp</dimen>
+    <dimen name="double_margin">32dp</dimen>
     <dimen name="big_margin">56dp</dimen>
     <dimen name="small_margin">4dp</dimen>
     <dimen name="text_big">48sp</dimen>
+    <dimen name="back_margin">8dp</dimen>
 </resources>

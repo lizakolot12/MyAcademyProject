@@ -11,4 +11,6 @@
     <color name="background">#191926</color>
     <color name="category">#FF3466</color>
     <color name="text_general">#ECECEC</color>
+    <color name="rating_not_active">#BAB5B5</color>
+    <color name="rating_active">@color/category</color>
 </resources>
