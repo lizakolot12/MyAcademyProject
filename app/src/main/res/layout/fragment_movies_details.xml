@@ -28,7 +28,7 @@
             app:layout_constraintGuide_end="@dimen/general_margin" />
 
         <ImageView
-            android:id="@+id/top"
+            android:id="@+id/iv_top"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
@@ -44,59 +44,59 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/gradient_background"
-            app:layout_constraintBottom_toBottomOf="@id/top"
-            app:layout_constraintEnd_toEndOf="@id/top"
-            app:layout_constraintStart_toStartOf="@id/top"
-            app:layout_constraintTop_toTopOf="@id/top" />
+            app:layout_constraintBottom_toBottomOf="@id/iv_top"
+            app:layout_constraintEnd_toEndOf="@id/iv_top"
+            app:layout_constraintStart_toStartOf="@id/iv_top"
+            app:layout_constraintTop_toTopOf="@id/iv_top" />
 
         <ImageView
-            android:id="@+id/back_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:contentDescription="@string/description_back"
             android:src="@drawable/ic_back"
-            app:layout_constraintBottom_toBottomOf="@+id/lb_back"
-            app:layout_constraintEnd_toStartOf="@+id/lb_back"
-            app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toTopOf="@+id/lb_back" />
+            android:id="@+id/iv_back"
+            android:layout_marginStart="@dimen/general_margin"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_back"
+            app:layout_constraintEnd_toStartOf="@+id/tv_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_back" />
 
         <TextView
-            android:id="@+id/lb_back"
+            android:id="@+id/tv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/double_margin"
+            android:layout_marginStart="@dimen/back_margin"
             android:layout_marginTop="@dimen/big_margin"
             android:text="@string/label_back"
             android:textColor="@android:color/darker_gray"
-            app:layout_constraintStart_toEndOf="@id/start"
+            app:layout_constraintStart_toEndOf="@id/iv_back"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/required_age"
+            android:id="@+id/tv_required_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/midi_margin"
             android:text="@string/required_age_above_13"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/movie_title"
+            app:layout_constraintBottom_toTopOf="@id/tv_movie_title"
             app:layout_constraintStart_toEndOf="@id/start" />
 
         <TextView
-            android:id="@+id/movie_title"
+            android:id="@+id/tv_movie_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/title"
             android:textColor="@color/text_general"
             android:textSize="@dimen/text_big"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/top"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_top"
             app:layout_constraintEnd_toStartOf="@id/end"
             app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@+id/top" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_top" />
 
         <TextView
-            android:id="@+id/categories"
+            android:id="@+id/tv_categoties"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
@@ -106,7 +106,7 @@
             android:textColor="@color/category"
             app:layout_constraintEnd_toStartOf="@id/end"
             app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@id/movie_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_movie_title" />
 
         <RatingBar
             android:id="@+id/ratings"
@@ -120,10 +120,10 @@
             android:stepSize="1.0"
             android:theme="@style/RatingBar"
             app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@+id/categories" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_categoties" />
 
         <TextView
-            android:id="@+id/reviews"
+            android:id="@+id/tv_reviews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/general_margin"
@@ -139,7 +139,7 @@
             app:layout_constraintTop_toTopOf="@id/ratings" />
 
         <TextView
-            android:id="@+id/storyline_title"
+            android:id="@+id/tv_storyline_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/general_margin"
@@ -150,7 +150,7 @@
             app:layout_constraintTop_toBottomOf="@id/ratings" />
 
         <TextView
-            android:id="@+id/storyline_content"
+            android:id="@+id/tv_storyline_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
@@ -159,10 +159,11 @@
             android:text="@string/storyline_content"
             app:layout_constraintEnd_toStartOf="@id/end"
             app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@id/storyline_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_storyline_title"
+            />
 
         <TextView
-            android:id="@+id/cast_title"
+            android:id="@+id/tv_cast_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/general_margin"
@@ -170,82 +171,82 @@
             android:text="@string/title_cast"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@id/storyline_content" />
+            app:layout_constraintTop_toBottomOf="@id/tv_storyline_content" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/iv_downey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/downey"
             android:src="@drawable/downey"
-            app:layout_constraintBottom_toTopOf="@id/downey_name"
-            app:layout_constraintEnd_toStartOf="@+id/imageView2"
+            app:layout_constraintBottom_toTopOf="@id/tv_downey_name"
+            app:layout_constraintEnd_toStartOf="@+id/iv_evans"
             app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@id/cast_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_cast_title" />
 
         <TextView
-            android:id="@+id/downey_name"
-            style="@style/PeopleInfoText"
+            android:id="@+id/tv_downey_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/downey"
+            style="@style/PeopleInfoText"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/imageView"
-            app:layout_constraintStart_toStartOf="@id/imageView"
-            app:layout_constraintTop_toBottomOf="@id/imageView" />
+            app:layout_constraintEnd_toEndOf="@id/iv_downey"
+            app:layout_constraintStart_toStartOf="@id/iv_downey"
+            app:layout_constraintTop_toBottomOf="@id/iv_downey" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/iv_evans"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/evans"
             android:src="@drawable/evans"
-            app:layout_constraintBottom_toTopOf="@id/evans_name"
-            app:layout_constraintEnd_toStartOf="@+id/imageView3"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@id/cast_title" />
+            app:layout_constraintBottom_toTopOf="@id/tv_evans_name"
+            app:layout_constraintEnd_toStartOf="@+id/iv_ruffalo"
+            app:layout_constraintStart_toEndOf="@+id/iv_downey"
+            app:layout_constraintTop_toBottomOf="@id/tv_cast_title" />
 
         <TextView
-            android:id="@+id/evans_name"
-            style="@style/PeopleInfoText"
+            android:id="@+id/tv_evans_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/evans"
+            style="@style/PeopleInfoText"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/imageView2"
-            app:layout_constraintStart_toStartOf="@id/imageView2"
-            app:layout_constraintTop_toBottomOf="@id/imageView2" />
+            app:layout_constraintEnd_toEndOf="@id/iv_evans"
+            app:layout_constraintStart_toStartOf="@id/iv_evans"
+            app:layout_constraintTop_toBottomOf="@id/iv_evans" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/iv_ruffalo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/ruffalo"
             android:src="@drawable/ruffalo"
-            app:layout_constraintBottom_toTopOf="@id/ruffalo_name"
-            app:layout_constraintEnd_toStartOf="@+id/imageView4"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@id/cast_title" />
+            app:layout_constraintBottom_toTopOf="@id/tv_ruffalo_name"
+            app:layout_constraintEnd_toStartOf="@+id/iv_hemsworth"
+            app:layout_constraintStart_toEndOf="@+id/iv_evans"
+            app:layout_constraintTop_toBottomOf="@id/tv_cast_title" />
 
         <TextView
-            android:id="@+id/ruffalo_name"
-            style="@style/PeopleInfoText"
+            android:id="@+id/tv_ruffalo_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/PeopleInfoText"
             android:text="@string/ruffalo"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/imageView3"
-            app:layout_constraintStart_toStartOf="@id/imageView3"
-            app:layout_constraintTop_toBottomOf="@id/imageView3" />
+            app:layout_constraintEnd_toEndOf="@id/iv_ruffalo"
+            app:layout_constraintStart_toStartOf="@id/iv_ruffalo"
+            app:layout_constraintTop_toBottomOf="@id/iv_ruffalo" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/iv_hemsworth"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -253,20 +254,20 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/hemsworth"
             android:src="@drawable/hemsworth"
-            app:layout_constraintBottom_toTopOf="@id/hemsworth_name"
+            app:layout_constraintBottom_toTopOf="@id/tv_hemsworth_name"
             app:layout_constraintEnd_toStartOf="@id/end"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
-            app:layout_constraintTop_toBottomOf="@id/cast_title" />
+            app:layout_constraintStart_toEndOf="@+id/iv_ruffalo"
+            app:layout_constraintTop_toBottomOf="@id/tv_cast_title" />
 
         <TextView
-            android:id="@+id/hemsworth_name"
-            style="@style/PeopleInfoText"
+            android:id="@+id/tv_hemsworth_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/hemsworth"
+            style="@style/PeopleInfoText"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/imageView4"
-            app:layout_constraintStart_toStartOf="@id/imageView4"
-            app:layout_constraintTop_toBottomOf="@id/imageView4" />
+            app:layout_constraintEnd_toEndOf="@id/iv_hemsworth"
+            app:layout_constraintStart_toStartOf="@id/iv_hemsworth"
+            app:layout_constraintTop_toBottomOf="@id/iv_hemsworth" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
