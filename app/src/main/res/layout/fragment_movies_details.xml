@@ -50,12 +50,12 @@
             app:layout_constraintTop_toTopOf="@id/iv_top" />
 
         <ImageView
+            android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/general_margin"
             android:contentDescription="@string/description_back"
             android:src="@drawable/ic_back"
-            android:id="@+id/iv_back"
-            android:layout_marginStart="@dimen/general_margin"
             app:layout_constraintBottom_toBottomOf="@+id/tv_back"
             app:layout_constraintEnd_toStartOf="@+id/tv_back"
             app:layout_constraintStart_toStartOf="parent"
@@ -159,115 +159,18 @@
             android:text="@string/storyline_content"
             app:layout_constraintEnd_toStartOf="@id/end"
             app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@id/tv_storyline_title"
-            />
+            app:layout_constraintTop_toBottomOf="@id/tv_storyline_title" />
 
-        <TextView
-            android:id="@+id/tv_cast_title"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/actors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/general_margin"
-            android:layout_marginBottom="@dimen/general_margin"
-            android:text="@string/title_cast"
-            android:textStyle="bold"
+            android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@id/tv_storyline_content" />
+            app:layout_constraintTop_toBottomOf="@id/tv_storyline_content"
+            tools:listitem="@layout/view_holder_actor"
 
-        <ImageView
-            android:id="@+id/iv_downey"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/downey"
-            android:src="@drawable/downey"
-            app:layout_constraintBottom_toTopOf="@id/tv_downey_name"
-            app:layout_constraintEnd_toStartOf="@+id/iv_evans"
-            app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@id/tv_cast_title" />
+            />
 
-        <TextView
-            android:id="@+id/tv_downey_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/downey"
-            style="@style/PeopleInfoText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/iv_downey"
-            app:layout_constraintStart_toStartOf="@id/iv_downey"
-            app:layout_constraintTop_toBottomOf="@id/iv_downey" />
-
-        <ImageView
-            android:id="@+id/iv_evans"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/evans"
-            android:src="@drawable/evans"
-            app:layout_constraintBottom_toTopOf="@id/tv_evans_name"
-            app:layout_constraintEnd_toStartOf="@+id/iv_ruffalo"
-            app:layout_constraintStart_toEndOf="@+id/iv_downey"
-            app:layout_constraintTop_toBottomOf="@id/tv_cast_title" />
-
-        <TextView
-            android:id="@+id/tv_evans_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/evans"
-            style="@style/PeopleInfoText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/iv_evans"
-            app:layout_constraintStart_toStartOf="@id/iv_evans"
-            app:layout_constraintTop_toBottomOf="@id/iv_evans" />
-
-        <ImageView
-            android:id="@+id/iv_ruffalo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/ruffalo"
-            android:src="@drawable/ruffalo"
-            app:layout_constraintBottom_toTopOf="@id/tv_ruffalo_name"
-            app:layout_constraintEnd_toStartOf="@+id/iv_hemsworth"
-            app:layout_constraintStart_toEndOf="@+id/iv_evans"
-            app:layout_constraintTop_toBottomOf="@id/tv_cast_title" />
-
-        <TextView
-            android:id="@+id/tv_ruffalo_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            style="@style/PeopleInfoText"
-            android:text="@string/ruffalo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/iv_ruffalo"
-            app:layout_constraintStart_toStartOf="@id/iv_ruffalo"
-            app:layout_constraintTop_toBottomOf="@id/iv_ruffalo" />
-
-        <ImageView
-            android:id="@+id/iv_hemsworth"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_marginEnd="@dimen/general_margin"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/hemsworth"
-            android:src="@drawable/hemsworth"
-            app:layout_constraintBottom_toTopOf="@id/tv_hemsworth_name"
-            app:layout_constraintEnd_toStartOf="@id/end"
-            app:layout_constraintStart_toEndOf="@+id/iv_ruffalo"
-            app:layout_constraintTop_toBottomOf="@id/tv_cast_title" />
-
-        <TextView
-            android:id="@+id/tv_hemsworth_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/hemsworth"
-            style="@style/PeopleInfoText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/iv_hemsworth"
-            app:layout_constraintStart_toStartOf="@id/iv_hemsworth"
-            app:layout_constraintTop_toBottomOf="@id/iv_hemsworth" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
