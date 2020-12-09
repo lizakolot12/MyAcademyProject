@@ -58,6 +58,7 @@ object MoviesDataSource {
     )
 
     fun movies(): List<Movie> = movies
+
     fun getMovieById(id: Int): Movie =
         movies.first() { it.id == id }
 }
