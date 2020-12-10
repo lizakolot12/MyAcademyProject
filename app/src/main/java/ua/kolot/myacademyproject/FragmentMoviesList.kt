@@ -15,7 +15,6 @@ class FragmentMoviesList : Fragment() {
     companion object {
         private const val GRID_COLUMN = 2
 
-        @JvmStatic
         fun newInstance() =
             FragmentMoviesList()
 
@@ -33,10 +32,9 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recycler: RecyclerView = view.findViewById(R.id.rv_movies)
-        recycler.layoutManager = GridLayoutManager(context, GRID_COLUMN)
-        recycler.adapter =
-            context?.let { MoviesAdapter(it, MoviesDataSource.movies(), movieClickListener) }
+        val recyclerView: RecyclerView = view.findViewById(R.id.rv_movies)
+        recyclerView.layoutManager = GridLayoutManager(context, GRID_COLUMN)
+        recyclerView.adapter = MoviesAdapter(requireContext(), MoviesDataSource.movies, movieClickListener)
     }
 
     override fun onAttach(context: Context) {

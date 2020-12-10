@@ -5,7 +5,7 @@ import ua.kolot.myacademyproject.R
 
 object MoviesDataSource {
 
-    private val movies: List<Movie> = listOf(
+    val movies: List<Movie> = listOf(
         Movie(
             1,
             "Avengers:The game",
@@ -57,8 +57,6 @@ object MoviesDataSource {
         )
     )
 
-    fun movies(): List<Movie> = movies
-
-    fun getMovieById(id: Int): Movie =
-        movies.first() { it.id == id }
+    fun getMovieById(id: Int): Movie? =
+        movies.firstOrNull { movie -> movie.id == id }
 }
