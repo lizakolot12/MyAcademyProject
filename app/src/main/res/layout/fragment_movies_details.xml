@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:background="@color/background"
         android:scrollbars="vertical"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
+        android:paddingBottom="@dimen/general_margin">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/start"
@@ -28,7 +29,7 @@
             app:layout_constraintGuide_end="@dimen/general_margin" />
 
         <ImageView
-            android:id="@+id/iv_top"
+            android:id="@+id/iv_poster"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
@@ -41,13 +42,13 @@
 
         <View
             android:id="@+id/top_mask"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/gradient_background"
-            app:layout_constraintBottom_toBottomOf="@id/iv_top"
-            app:layout_constraintEnd_toEndOf="@id/iv_top"
-            app:layout_constraintStart_toStartOf="@id/iv_top"
-            app:layout_constraintTop_toTopOf="@id/iv_top" />
+            app:layout_constraintBottom_toBottomOf="@id/iv_poster"
+            app:layout_constraintEnd_toEndOf="@id/iv_poster"
+            app:layout_constraintStart_toStartOf="@id/iv_poster"
+            app:layout_constraintTop_toTopOf="@id/iv_poster" />
 
         <ImageView
             android:id="@+id/iv_back"
@@ -77,23 +78,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/midi_margin"
-            android:text="@string/required_age_above_13"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/tv_movie_title"
             app:layout_constraintStart_toEndOf="@id/start" />
 
         <TextView
             android:id="@+id/tv_movie_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="348dp"
+            android:layout_height="114dp"
             android:text="@string/title"
             android:textColor="@color/text_general"
             android:textSize="@dimen/text_big"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_top"
-            app:layout_constraintEnd_toStartOf="@id/end"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
             app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@+id/iv_top" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_poster" />
 
         <TextView
             android:id="@+id/tv_categories"
@@ -161,16 +160,28 @@
             app:layout_constraintStart_toEndOf="@id/start"
             app:layout_constraintTop_toBottomOf="@id/tv_storyline_title" />
 
+        <TextView
+            android:id="@+id/tv_cast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/general_margin"
+            android:layout_marginBottom="@dimen/general_margin"
+            android:text="@string/title_cast"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/start"
+            app:layout_constraintTop_toBottomOf="@id/tv_storyline_content" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_actors"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="@dimen/general_margin"
             app:layout_constraintStart_toEndOf="@id/start"
-            app:layout_constraintTop_toBottomOf="@id/tv_storyline_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_cast"
             app:layout_constraintEnd_toEndOf="@id/end"
             tools:listitem="@layout/view_holder_actor"
-
+            android:scrollbars="vertical"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
