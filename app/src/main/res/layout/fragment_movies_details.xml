@@ -170,8 +170,13 @@
             app:layout_constraintStart_toEndOf="@id/start"
             app:layout_constraintTop_toBottomOf="@id/tv_storyline_content"
             tools:listitem="@layout/view_holder_actor"
-
             />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:constraint_referenced_ids="tv_reviews, tv_required_age, iv_top, ratings, rv_actors, tv_categories,tv_movie_title, tv_storyline_content,tv_storyline_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
