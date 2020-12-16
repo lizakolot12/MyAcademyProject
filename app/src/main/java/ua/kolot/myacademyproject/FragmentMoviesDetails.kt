@@ -26,16 +26,16 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
         val movie =
             MoviesDataSource.getMovieById(arguments?.getInt(MOVIE_ID) ?: error("Movie id is null"))
 
-        view.findViewById<TextView>(R.id.tv_movie_title).text = movie?.title?:""
-        view.findViewById<TextView>(R.id.tv_categories).text = movie?.categories?:""
-        view.findViewById<RatingBar>(R.id.ratings).rating = movie?.rating?:0f
+        view.findViewById<TextView>(R.id.tv_movie_title).text = movie?.title ?: ""
+        view.findViewById<TextView>(R.id.tv_categories).text = movie?.categories ?: ""
+        view.findViewById<RatingBar>(R.id.ratings).rating = movie?.rating ?: 0f
         view.findViewById<TextView>(R.id.tv_reviews).text =
             getString(R.string.some_reviews, movie?.reviews)
-        view.findViewById<TextView>(R.id.tv_movie_title).text = movie?.title?:""
+        view.findViewById<TextView>(R.id.tv_movie_title).text = movie?.title ?: ""
 
         val actorsRecyclerView = view.findViewById<RecyclerView>(R.id.rv_actors)
         actorsRecyclerView.layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
-        actorsRecyclerView.adapter =  ActorsAdapter(requireContext(), movie?.actors?: emptyList())
+        actorsRecyclerView.adapter = ActorsAdapter(requireContext(), movie?.actors ?: emptyList())
         return view
     }
 

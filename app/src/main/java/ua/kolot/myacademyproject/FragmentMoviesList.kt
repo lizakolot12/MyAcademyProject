@@ -34,7 +34,8 @@ class FragmentMoviesList : Fragment() {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rv_movies)
         recyclerView.layoutManager = GridLayoutManager(context, GRID_COLUMN)
-        recyclerView.adapter = MoviesAdapter(requireContext(), MoviesDataSource.movies, movieClickListener)
+        recyclerView.adapter =
+            MoviesAdapter(requireContext(), MoviesDataSource.movies, movieClickListener)
     }
 
     override fun onAttach(context: Context) {
