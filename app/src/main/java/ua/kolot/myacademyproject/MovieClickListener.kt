@@ -1,5 +1,5 @@
 package ua.kolot.myacademyproject
 
 interface MovieClickListener {
-    fun onMovieClick()
+    fun onMovieClick(movieId: Int)
 }

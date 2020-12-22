@@ -1,9 +1,10 @@
 package ua.kolot.myacademyproject
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity(), MovieClickListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -13,9 +14,9 @@ class MainActivity : AppCompatActivity(), MovieClickListener {
         }
     }
 
-    override fun onMovieClick() {
+    override fun onMovieClick(movieId: Int) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .add(R.id.container, FragmentMoviesDetails.newInstance()).commit()
+            .add(R.id.container, FragmentMoviesDetails.newInstance(movieId)).commit()
     }
 }
