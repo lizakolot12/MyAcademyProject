@@ -8,11 +8,11 @@ import ua.kolot.myacademyproject.data.Movie
 
 class MoviesAdapter(
     context: Context,
-    private var movies: List<Movie>,
     private val movieClickListener: MovieClickListener?
 ) : RecyclerView.Adapter<MovieViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
+    private var movies: List<Movie> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return MovieViewHolder(inflater.inflate(R.layout.view_holder_movie, parent, false))

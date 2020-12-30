@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.Group
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,8 +32,7 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
     }
 
     private var scope = CoroutineScope(
-        Job() +
-                Dispatchers.Default
+        Job() + Dispatchers.Default
     )
 
     private lateinit var titleView: TextView
@@ -43,8 +41,8 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
     private lateinit var reviewsView: TextView
     private lateinit var requiredAgeView: TextView
     private lateinit var actorsRecyclerView: RecyclerView
-    private lateinit var posterView:ImageView
-    private lateinit var castView:TextView
+    private lateinit var posterView: ImageView
+    private lateinit var castView: TextView
     private lateinit var content: Group
 
     private var actorAdapter: ActorsAdapter? = null
@@ -53,7 +51,6 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.fragment_movies_details, container, false)
         view.findViewById<View>(R.id.tv_back).setOnClickListener(this)
         view.findViewById<View>(R.id.iv_back).setOnClickListener(this)
@@ -71,7 +68,7 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
 
         actorsRecyclerView = view.findViewById(R.id.rv_actors)
         actorsRecyclerView.layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
-        actorAdapter = ActorsAdapter(requireContext(), emptyList())
+        actorAdapter = ActorsAdapter(requireContext())
         actorsRecyclerView.adapter = actorAdapter
 
         val movieId = arguments?.getInt(MOVIE_ID) ?: error("Movie id is null")
@@ -83,18 +80,22 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
     private fun loadData(movieId: Int) {
         scope.launch {
             val movie = MoviesDataSource.getMovieById(movieId, requireContext())
-            movie?.let { movieCurrent ->  updateViews(movieCurrent) }
+            movie?.let { movieCurrent -> updateViews(movieCurrent) }
         }
     }
 
     private suspend fun updateViews(movie: Movie) = withContext(Dispatchers.Main) {
         titleView.text = movie.title
         categoriesView.text = movie.genres.joinToString { it.name }
-        ratingsView.rating = movie.ratings/2
+        ratingsView.rating = movie.ratings / 2
         reviewsView.text =
             getString(R.string.some_reviews, movie.numberOfRatings)
         requiredAgeView.text = getString(R.string.minimum_age, movie.minimumAge)
-        castView.visibility = if (movie.actors.size > 0) View.VISIBLE else View.INVISIBLE
+        castView.visibility = if (movie.actors.isNotEmpty()) {
+            View.VISIBLE
+        } else {
+            View.INVISIBLE
+        }
 
         actorAdapter?.updateData(movie.actors)
 

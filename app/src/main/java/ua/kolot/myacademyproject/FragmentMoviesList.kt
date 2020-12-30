@@ -27,8 +27,7 @@ class FragmentMoviesList : Fragment() {
     private lateinit var adapter: MoviesAdapter
 
     private var scope = CoroutineScope(
-        Job() +
-                Dispatchers.Default
+        Job() + Dispatchers.Default
     )
 
     override fun onCreateView(
@@ -44,7 +43,7 @@ class FragmentMoviesList : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.rv_movies)
         recyclerView.layoutManager = GridLayoutManager(context, GRID_COLUMN)
         recyclerView.addItemDecoration(SpacingItemDecorator(16))
-        adapter = MoviesAdapter(requireContext(), emptyList(), movieClickListener)
+        adapter = MoviesAdapter(requireContext(), movieClickListener)
         recyclerView.adapter = adapter
 
         loadData()
