@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.Group
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import kotlinx.coroutines.*
 import ua.kolot.myacademyproject.data.Movie
 import ua.kolot.myacademyproject.data.MoviesDataSource
 
@@ -29,44 +31,87 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
         }
     }
 
+    private var scope = CoroutineScope(
+        Job() + Dispatchers.Default
+    )
+
+    private lateinit var titleView: TextView
+    private lateinit var categoriesView: TextView
+    private lateinit var ratingsView: RatingBar
+    private lateinit var reviewsView: TextView
+    private lateinit var requiredAgeView: TextView
+    private lateinit var actorsRecyclerView: RecyclerView
+    private lateinit var posterView: ImageView
+    private lateinit var castView: TextView
     private lateinit var content: Group
+
+    private var actorAdapter: ActorsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.fragment_movies_details, container, false)
         view.findViewById<View>(R.id.tv_back).setOnClickListener(this)
         view.findViewById<View>(R.id.iv_back).setOnClickListener(this)
         content = view.findViewById(R.id.content)
 
-        val movieId = arguments?.getInt(MOVIE_ID)
-        val movie = movieId?.let { MoviesDataSource.getMovieById(it) }
+        titleView = view.findViewById(R.id.tv_movie_title)
+        categoriesView = view.findViewById(R.id.tv_categories)
+        ratingsView = view.findViewById(R.id.ratings)
+        reviewsView = view.findViewById(R.id.tv_reviews)
+        requiredAgeView = view.findViewById(R.id.tv_required_age)
+        posterView = view.findViewById(R.id.iv_poster)
+        castView = view.findViewById(R.id.tv_cast)
 
-        movie?.let { showContent(view, it) } ?: run { showErrorContent() }
+        castView.visibility = View.INVISIBLE
+
+        actorsRecyclerView = view.findViewById(R.id.rv_actors)
+        actorsRecyclerView.layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
+        actorAdapter = ActorsAdapter(requireContext())
+        actorsRecyclerView.adapter = actorAdapter
+
+        val movieId = arguments?.getInt(MOVIE_ID) ?: error("Movie id is null")
+        loadData(movieId)
+
         return view
     }
 
-    private fun showContent(view: View, movie: Movie) {
-        view.findViewById<TextView>(R.id.tv_movie_title).text = movie.title
-        view.findViewById<TextView>(R.id.tv_categories).text = movie.categories
-        view.findViewById<RatingBar>(R.id.ratings).rating = movie.rating
-        view.findViewById<TextView>(R.id.tv_reviews).text =
-            getString(R.string.some_reviews, movie.reviews)
-        view.findViewById<TextView>(R.id.tv_movie_title).text = movie.title
-
-        val actorsRecyclerView = view.findViewById<RecyclerView>(R.id.rv_actors)
-        actorsRecyclerView.layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
-        actorsRecyclerView.adapter = ActorsAdapter(requireContext(), movie.actors)
+    private fun loadData(movieId: Int) {
+        scope.launch {
+            val movie = MoviesDataSource.getMovieById(movieId, requireContext())
+            movie?.let { movieCurrent -> updateViews(movieCurrent) }
+        }
     }
 
-    private fun showErrorContent() {
-        Toast.makeText(context, R.string.movie_error, Toast.LENGTH_LONG).show()
-        content.visibility = View.INVISIBLE
+    private suspend fun updateViews(movie: Movie) = withContext(Dispatchers.Main) {
+        titleView.text = movie.title
+        categoriesView.text = movie.genres.joinToString { it.name }
+        ratingsView.rating = movie.ratings / 2
+        reviewsView.text =
+            getString(R.string.some_reviews, movie.numberOfRatings)
+        requiredAgeView.text = getString(R.string.minimum_age, movie.minimumAge)
+        castView.visibility = if (movie.actors.isNotEmpty()) {
+            View.VISIBLE
+        } else {
+            View.INVISIBLE
+        }
+
+        actorAdapter?.updateData(movie.actors)
+
+        Glide
+            .with(requireContext())
+            .load(movie.poster)
+            .placeholder(R.drawable.loading)
+            .into(posterView)
     }
 
     override fun onClick(v: View?) {
         activity?.onBackPressed()
+    }
+
+    override fun onDestroyView() {
+        scope.cancel()
+        super.onDestroyView()
     }
 }

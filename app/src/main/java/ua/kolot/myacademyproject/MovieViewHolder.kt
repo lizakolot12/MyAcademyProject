@@ -5,6 +5,9 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import ua.kolot.myacademyproject.data.Movie
 
 class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -14,12 +17,23 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val duration: TextView = itemView.findViewById(R.id.tv_duration)
     private val reviews: TextView = itemView.findViewById(R.id.tv_reviews)
     private val ratings: RatingBar = itemView.findViewById(R.id.ratings)
+    private val requiredAge: TextView = itemView.findViewById(R.id.tv_required_age)
+    private val categories: TextView = itemView.findViewById(R.id.tv_categories)
 
     fun bind(movie: Movie) {
-        poster.setImageDrawable(itemView.context.resources.getDrawable(movie.posterId))
+        val context = itemView.context
+
+        Glide.with(context)
+            .load(movie.poster)
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(15)))
+            .placeholder(R.drawable.loading)
+            .into(poster)
+
         titleView.text = movie.title
-        duration.text = itemView.context.getString(R.string.some_minutes, movie.duration)
-        reviews.text = itemView.context.getString(R.string.some_reviews, movie.reviews)
-        ratings.rating = movie.rating
+        duration.text = context.getString(R.string.some_minutes, movie.runtime)
+        reviews.text = context.getString(R.string.some_reviews, movie.numberOfRatings)
+        ratings.rating = movie.ratings / 2
+        requiredAge.text = context.getString(R.string.minimum_age, movie.minimumAge)
+        categories.text = movie.genres.joinToString { it.name }
     }
 }
