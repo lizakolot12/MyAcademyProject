@@ -11,7 +11,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="description_top">top</string>
     <string name="label_back">Back</string>
-    <string name="required_age_above_13">13+</string>
+    <string name="minimum_age">%1$d+</string>
     <string name="title">Avengers:End Game</string>
     <string name="category">Action, Adventure, Fantasy</string>
     <string name="reviews">125 reviews</string>

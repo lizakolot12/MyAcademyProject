@@ -8,7 +8,7 @@ import ua.kolot.myacademyproject.data.Movie
 
 class MoviesAdapter(
     context: Context,
-    private val movies: List<Movie>,
+    private var movies: List<Movie>,
     private val movieClickListener: MovieClickListener?
 ) : RecyclerView.Adapter<MovieViewHolder>() {
 
@@ -23,5 +23,10 @@ class MoviesAdapter(
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.bind(movies.get(position))
         holder.itemView.setOnClickListener { movieClickListener?.onMovieClick(movies[position].id) }
+    }
+
+    fun updateData(movies: List<Movie>) {
+        this.movies = movies
+        notifyDataSetChanged()
     }
 }
