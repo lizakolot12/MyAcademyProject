@@ -1,16 +1,20 @@
-package ua.kolot.myacademyproject
+package ua.kolot.myacademyproject.list
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.*
+import ua.kolot.myacademyproject.R
+import ua.kolot.myacademyproject.ViewModelFactory
 import ua.kolot.myacademyproject.data.Movie
-import ua.kolot.myacademyproject.data.MoviesDataSource
 import ua.kolot.myacademyproject.util.SpacingItemDecorator
 
 class FragmentMoviesList : Fragment() {
@@ -25,10 +29,10 @@ class FragmentMoviesList : Fragment() {
 
     private var movieClickListener: MovieClickListener? = null
     private lateinit var adapter: MoviesAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
 
-    private var scope = CoroutineScope(
-        Job() + Dispatchers.Default
-    )
+    private val viewModel: MovieListViewModel by viewModels { ViewModelFactory(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,25 +43,39 @@ class FragmentMoviesList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val recyclerView: RecyclerView = view.findViewById(R.id.rv_movies)
-        recyclerView.layoutManager = GridLayoutManager(context, GRID_COLUMN)
+        progressBar = view.findViewById(R.id.progress)
+        recyclerView = view.findViewById(R.id.rv_movies)
+        recyclerView.layoutManager = GridLayoutManager(
+            context,
+            GRID_COLUMN
+        )
         recyclerView.addItemDecoration(SpacingItemDecorator(16))
-        adapter = MoviesAdapter(requireContext(), movieClickListener)
+        adapter = MoviesAdapter(
+            requireContext(),
+            movieClickListener
+        )
         recyclerView.adapter = adapter
 
-        loadData()
-    }
+        viewModel.movies.observe(this.viewLifecycleOwner, this::updateList)
+        viewModel.progress.observe(this.viewLifecycleOwner, this::progress)
+        viewModel.error.observe(this.viewLifecycleOwner, this::showError)
 
-    private fun loadData() {
-        scope.launch {
-            val moviesList = MoviesDataSource.getMovies(requireContext())
-            updateViews(moviesList)
+        if (savedInstanceState == null) {
+            viewModel.init()
         }
+
     }
 
-    private suspend fun updateViews(list: List<Movie>?) = withContext(Dispatchers.Main) {
+    private fun updateList(list: List<Movie>?) {
         list?.let { movies -> adapter.updateData(movies) }
+    }
+
+    private fun progress(progress: Boolean) {
+        progressBar.visibility = if (progress) View.VISIBLE else View.INVISIBLE
+    }
+
+    private fun showError(error: String?) {
+        error?.let { Toast.makeText(context, error, Toast.LENGTH_LONG).show() }
     }
 
     override fun onAttach(context: Context) {
@@ -70,10 +88,5 @@ class FragmentMoviesList : Fragment() {
     override fun onDetach() {
         movieClickListener = null
         super.onDetach()
-    }
-
-    override fun onDestroyView() {
-        scope.cancel()
-        super.onDestroyView()
     }
 }

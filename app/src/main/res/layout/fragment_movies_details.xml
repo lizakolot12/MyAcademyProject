@@ -31,7 +31,7 @@
         <ImageView
             android:id="@+id/iv_poster"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/description_top"
             android:scaleType="fitXY"
@@ -188,7 +188,18 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:constraint_referenced_ids="tv_reviews, tv_required_age, iv_poster, ratings, rv_actors, tv_categories,tv_movie_title, tv_storyline_content,tv_storyline_title" />
+            android:visibility="invisible"
+            app:constraint_referenced_ids="tv_cast, tv_reviews, tv_required_age, iv_poster, ratings, rv_actors, tv_categories,tv_movie_title, tv_storyline_content,tv_storyline_title" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="visible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

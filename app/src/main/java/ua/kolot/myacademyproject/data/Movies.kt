@@ -4,7 +4,6 @@ import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-
 object MoviesDataSource {
     private var movies: List<Movie>? = null
 

@@ -1,4 +1,4 @@
-package ua.kolot.myacademyproject
+package ua.kolot.myacademyproject.list
 
 import android.view.View
 import android.widget.ImageView
@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import ua.kolot.myacademyproject.R
 import ua.kolot.myacademyproject.data.Movie
 
 class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
