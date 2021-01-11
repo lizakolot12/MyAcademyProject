@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import ua.kolot.myacademyproject.R
-import ua.kolot.myacademyproject.data.Movie
+import ua.kolot.myacademyproject.data.MovieBase
 
 class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -21,7 +21,7 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val requiredAge: TextView = itemView.findViewById(R.id.tv_required_age)
     private val categories: TextView = itemView.findViewById(R.id.tv_categories)
 
-    fun bind(movie: Movie) {
+    fun bind(movie: MovieBase) {
         val context = itemView.context
 
         Glide.with(context)
@@ -31,7 +31,7 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .into(poster)
 
         titleView.text = movie.title
-        duration.text = context.getString(R.string.some_minutes, movie.runtime)
+        duration.text = context.getString(R.string.some_minutes, 100)
         reviews.text = context.getString(R.string.some_reviews, movie.numberOfRatings)
         ratings.rating = movie.ratings / 2
         requiredAge.text = context.getString(R.string.minimum_age, movie.minimumAge)

@@ -34,4 +34,4 @@
     <string name="some_minutes">%1$d min</string>
     <string name="some_reviews">%1$d reviews</string>
     <string name="movie_error">There was an error retrieving movie data</string>
-</resources>
+   </resources>

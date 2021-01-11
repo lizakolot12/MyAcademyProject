@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ua.kolot.myacademyproject.R
 import ua.kolot.myacademyproject.ViewModelFactory
-import ua.kolot.myacademyproject.data.Movie
+import ua.kolot.myacademyproject.data.MovieBase
 import ua.kolot.myacademyproject.util.SpacingItemDecorator
 
 class FragmentMoviesList : Fragment() {
@@ -66,7 +66,7 @@ class FragmentMoviesList : Fragment() {
 
     }
 
-    private fun updateList(list: List<Movie>?) {
+    private fun updateList(list: List<MovieBase>?) {
         list?.let { movies -> adapter.updateData(movies) }
     }
 
