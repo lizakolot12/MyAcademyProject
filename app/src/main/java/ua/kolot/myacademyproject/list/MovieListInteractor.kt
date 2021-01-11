@@ -6,7 +6,7 @@ import ua.kolot.myacademyproject.data.MoviesDataSource
 
 class MovieListInteractor(private val context: Context) {
 
-    suspend fun movies(): List<Movie>? {
+    suspend fun getMovies(): List<Movie>? {
         return MoviesDataSource.getMovies(context)
     }
 }

@@ -29,7 +29,7 @@ class MovieViewModel(private val movieInteractor: MovieInteractor) : ViewModel()
         _progress.value = true
         scope.launch {
             try {
-                val movie = movieInteractor.movie(movieId)
+                val movie = movieInteractor.getMovieById(movieId)
                 _currentMovie.postValue(movie)
             } catch (ex: Exception) {
                 _error.postValue(ex.message)

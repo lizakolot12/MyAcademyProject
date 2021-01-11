@@ -56,21 +56,17 @@ class FragmentMoviesList : Fragment() {
         )
         recyclerView.adapter = adapter
 
-        viewModel.movies.observe(this.viewLifecycleOwner, this::updateList)
-        viewModel.progress.observe(this.viewLifecycleOwner, this::progress)
-        viewModel.error.observe(this.viewLifecycleOwner, this::showError)
-
-        if (savedInstanceState == null) {
-            viewModel.init()
-        }
+        viewModel.movies.observe(viewLifecycleOwner, ::updateList)
+        viewModel.progress.observe(viewLifecycleOwner, ::showProgress)
+        viewModel.error.observe(viewLifecycleOwner, ::showError)
 
     }
 
     private fun updateList(list: List<Movie>?) {
-        list?.let { movies -> adapter.updateData(movies) }
+        list?.let(adapter::updateData)
     }
 
-    private fun progress(progress: Boolean) {
+    private fun showProgress(progress: Boolean) {
         progressBar.visibility = if (progress) View.VISIBLE else View.INVISIBLE
     }
 
