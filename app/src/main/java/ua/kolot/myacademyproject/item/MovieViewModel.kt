@@ -8,8 +8,8 @@ import ua.kolot.myacademyproject.data.Movie
 
 class MovieViewModel(private val movieInteractor: MovieInteractor) : ViewModel() {
 
-    private val exceptionHandler = CoroutineExceptionHandler { coroutineContext, exception ->
-        _error.postValue(exception + " " + exception.localizedMessage)
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        _error.postValue(exception.toString() + " " + exception.localizedMessage)
     }
 
     private var scope = CoroutineScope(
