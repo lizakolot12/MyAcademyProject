@@ -9,7 +9,7 @@ import ua.kolot.myacademyproject.data.Movie
 class MovieListViewModel(private val movieListInteractor: MovieListInteractor) : ViewModel() {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _error.postValue(exception.toString() + " " + exception.message)
+        _error.postValue(exception.message)
     }
 
     private var scope = CoroutineScope(
