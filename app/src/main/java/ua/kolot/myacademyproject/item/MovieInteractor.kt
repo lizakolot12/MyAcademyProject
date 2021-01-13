@@ -5,7 +5,7 @@ import ua.kolot.myacademyproject.data.MoviesDataSource
 
 class MovieInteractor() {
 
-    suspend fun movie(movieId:Int): Movie? {
+    suspend fun getMovieById(movieId:Int): Movie? {
         return MoviesDataSource.getMovieById(movieId)
     }
 }

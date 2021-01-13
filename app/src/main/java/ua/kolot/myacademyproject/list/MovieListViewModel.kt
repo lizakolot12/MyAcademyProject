@@ -8,29 +8,32 @@ import ua.kolot.myacademyproject.data.MovieBase
 
 class MovieListViewModel(private val movieListInteractor: MovieListInteractor) : ViewModel() {
 
-    private var scope = CoroutineScope(
-        Job() + Dispatchers.Default)
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        _error.postValue(exception.message)
+    }
 
+    private var scope = CoroutineScope(
+        Job() + Dispatchers.Default + exceptionHandler
+    )
+
+    private val _progress = MutableLiveData(false)
     private val _movies = MutableLiveData<List<MovieBase>>(emptyList())
-    private val _progress = MutableLiveData<Boolean>(false)
     private val _error = MutableLiveData<String>()
 
     val movies: LiveData<List<MovieBase>> = _movies
     val progress: LiveData<Boolean> = _progress
     val error: LiveData<String> = _error
 
-    fun init() {
+    init {
         scope.launch {
             _progress.postValue(true)
 
             try {
-                val movies = movieListInteractor.movies()
+                val movies = movieListInteractor.getMovies()
                 _movies.postValue(movies)
-            } catch (ex: Exception) {
-                _error.postValue(ex.message)
+            } finally {
+                _progress.postValue(false)
             }
-
-            _progress.postValue(false)
         }
     }
 

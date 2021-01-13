@@ -5,7 +5,7 @@ import ua.kolot.myacademyproject.data.MoviesDataSource
 
 class MovieListInteractor() {
 
-    suspend fun movies(): List<MovieBase> {
+    suspend fun getMovies(): List<MovieBase> {
         return MoviesDataSource.getMovies()
     }
 }

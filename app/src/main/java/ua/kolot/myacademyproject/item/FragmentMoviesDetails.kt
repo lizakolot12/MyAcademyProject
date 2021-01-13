@@ -72,9 +72,9 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
             ActorsAdapter(requireContext())
         actorsRecyclerView.adapter = actorAdapter
 
-        viewModel.currentMovie.observe(this.viewLifecycleOwner, this::updateViews)
-        viewModel.progress.observe(this.viewLifecycleOwner, this::progress)
-        viewModel.error.observe(this.viewLifecycleOwner, this::showError)
+        viewModel.currentMovie.observe(viewLifecycleOwner, ::updateViews)
+        viewModel.progress.observe(viewLifecycleOwner, ::showProgress)
+        viewModel.error.observe(viewLifecycleOwner, ::showError)
 
         return view
     }
@@ -90,7 +90,7 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
         error?.let { Toast.makeText(context, error, Toast.LENGTH_LONG).show() }
     }
 
-    private fun progress(progress: Boolean) {
+    private fun showProgress(progress: Boolean) {
         progressBar.visibility = if (progress) View.VISIBLE else View.INVISIBLE
         content.visibility = if (!progress) View.VISIBLE else View.INVISIBLE
     }
