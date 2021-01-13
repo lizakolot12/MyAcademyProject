@@ -2,8 +2,12 @@ package ua.kolot.myacademyproject
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import ua.kolot.myacademyproject.item.FragmentMoviesDetails
+import ua.kolot.myacademyproject.list.FragmentMoviesList
+import ua.kolot.myacademyproject.list.MovieClickListener
 
-class MainActivity : AppCompatActivity(), MovieClickListener {
+class MainActivity : AppCompatActivity(),
+    MovieClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +21,6 @@ class MainActivity : AppCompatActivity(), MovieClickListener {
     override fun onMovieClick(movieId: Int) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .add(R.id.container, FragmentMoviesDetails.newInstance(movieId)).commit()
+            .replace(R.id.container, FragmentMoviesDetails.newInstance(movieId)).commit()
     }
 }

@@ -1,21 +1,21 @@
-package ua.kolot.myacademyproject
+package ua.kolot.myacademyproject.item
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
+import android.widget.*
 import androidx.constraintlayout.widget.Group
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.*
+import ua.kolot.myacademyproject.R
+import ua.kolot.myacademyproject.ViewModelFactory
 import ua.kolot.myacademyproject.data.Movie
-import ua.kolot.myacademyproject.data.MoviesDataSource
 
 class FragmentMoviesDetails : Fragment(), View.OnClickListener {
 
@@ -31,10 +31,6 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
         }
     }
 
-    private var scope = CoroutineScope(
-        Job() + Dispatchers.Default
-    )
-
     private lateinit var titleView: TextView
     private lateinit var categoriesView: TextView
     private lateinit var ratingsView: RatingBar
@@ -44,8 +40,11 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
     private lateinit var posterView: ImageView
     private lateinit var castView: TextView
     private lateinit var content: Group
+    private lateinit var progressBar: ProgressBar
 
     private var actorAdapter: ActorsAdapter? = null
+
+    private val viewModel: MovieViewModel by viewModels { ViewModelFactory(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,8 +53,9 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
         val view = inflater.inflate(R.layout.fragment_movies_details, container, false)
         view.findViewById<View>(R.id.tv_back).setOnClickListener(this)
         view.findViewById<View>(R.id.iv_back).setOnClickListener(this)
-        content = view.findViewById(R.id.content)
 
+        progressBar = view.findViewById(R.id.progress)
+        content = view.findViewById(R.id.content)
         titleView = view.findViewById(R.id.tv_movie_title)
         categoriesView = view.findViewById(R.id.tv_categories)
         ratingsView = view.findViewById(R.id.ratings)
@@ -68,23 +68,34 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
 
         actorsRecyclerView = view.findViewById(R.id.rv_actors)
         actorsRecyclerView.layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
-        actorAdapter = ActorsAdapter(requireContext())
+        actorAdapter =
+            ActorsAdapter(requireContext())
         actorsRecyclerView.adapter = actorAdapter
 
-        val movieId = arguments?.getInt(MOVIE_ID) ?: error("Movie id is null")
-        loadData(movieId)
+        viewModel.currentMovie.observe(viewLifecycleOwner, ::updateViews)
+        viewModel.progress.observe(viewLifecycleOwner, ::showProgress)
+        viewModel.error.observe(viewLifecycleOwner, ::showError)
 
         return view
     }
 
-    private fun loadData(movieId: Int) {
-        scope.launch {
-            val movie = MoviesDataSource.getMovieById(movieId, requireContext())
-            movie?.let { movieCurrent -> updateViews(movieCurrent) }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (savedInstanceState == null) {
+            viewModel.getMovie(arguments?.getInt(MOVIE_ID))
         }
     }
 
-    private suspend fun updateViews(movie: Movie) = withContext(Dispatchers.Main) {
+    private fun showError(error: String?) {
+        error?.let { Toast.makeText(context, error, Toast.LENGTH_LONG).show() }
+    }
+
+    private fun showProgress(progress: Boolean) {
+        progressBar.visibility = if (progress) View.VISIBLE else View.INVISIBLE
+        content.visibility = if (!progress) View.VISIBLE else View.INVISIBLE
+    }
+
+    private fun updateViews(movie: Movie) {
         titleView.text = movie.title
         categoriesView.text = movie.genres.joinToString { it.name }
         ratingsView.rating = movie.ratings / 2
@@ -110,8 +121,4 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
         activity?.onBackPressed()
     }
 
-    override fun onDestroyView() {
-        scope.cancel()
-        super.onDestroyView()
-    }
 }

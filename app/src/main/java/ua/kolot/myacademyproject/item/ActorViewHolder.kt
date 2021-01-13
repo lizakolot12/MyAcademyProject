@@ -1,10 +1,11 @@
-package ua.kolot.myacademyproject
+package ua.kolot.myacademyproject.item
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import ua.kolot.myacademyproject.R
 import ua.kolot.myacademyproject.data.Actor
 
 class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

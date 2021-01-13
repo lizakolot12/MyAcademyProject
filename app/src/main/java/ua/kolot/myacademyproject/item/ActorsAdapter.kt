@@ -1,9 +1,10 @@
-package ua.kolot.myacademyproject
+package ua.kolot.myacademyproject.item
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ua.kolot.myacademyproject.R
 import ua.kolot.myacademyproject.data.Actor
 
 class ActorsAdapter(context: Context) :
@@ -13,7 +14,13 @@ class ActorsAdapter(context: Context) :
     private var actors: List<Actor> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorViewHolder {
-        return ActorViewHolder(inflater.inflate(R.layout.view_holder_actor, parent, false))
+        return ActorViewHolder(
+            inflater.inflate(
+                R.layout.view_holder_actor,
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int = actors.size

@@ -1,4 +1,4 @@
-package ua.kolot.myacademyproject
+package ua.kolot.myacademyproject.list
 
 interface MovieClickListener {
     fun onMovieClick(movieId: Int)
