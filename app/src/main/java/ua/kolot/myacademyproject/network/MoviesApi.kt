@@ -13,9 +13,6 @@ interface MoviesApi {
     @GET("genre/movie/list")
     suspend fun genres(): GenreResult
 
-    /* @GET("/movie/{movie_id}")
-     suspend fun movieDetails(@Path("movie_id")movieId:String):*/
-
     @GET("movie/{movie_id}/credits")
     suspend fun actors(@Path("movie_id") movieId: Int): ActorsResult
 }

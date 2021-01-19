@@ -20,7 +20,6 @@ object RetrofitModule {
         prettyPrint = true
     }
 
-
     @ExperimentalSerializationApi
     private val retrofit: Retrofit = Retrofit.Builder()
         .client(client)

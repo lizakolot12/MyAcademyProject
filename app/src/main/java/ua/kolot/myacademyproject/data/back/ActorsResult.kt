@@ -7,6 +7,7 @@ import ua.kolot.myacademyproject.data.back.ActorJson
 @Serializable
 class ActorsResult(
     val id:Int,
+
     @SerialName("cast")
     val actors: List<ActorJson>
 )

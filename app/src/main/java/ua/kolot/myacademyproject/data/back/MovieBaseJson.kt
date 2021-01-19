@@ -19,8 +19,10 @@ class MovieBaseJson(
 
     @SerialName("vote_average")
     val ratings: Float,
+
     @SerialName("vote_count")
     val votesCount: Int,
+
     val overview: String,
     val adult: Boolean
 )
