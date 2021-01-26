@@ -7,53 +7,59 @@ import ua.kolot.myacademyproject.network.RetrofitModule
 
 @ExperimentalSerializationApi
 object MoviesDataSource {
-    private var movies: List<MovieBase>? = null
+
+    private const val PICTURE_BASE_URL = "https://image.tmdb.org/t/p/w500"
+    private const val LABEL_AGE_ADULT = 16
+    private const val LABEL_AGE_CHILD = 13
+
+    private var movies: List<Movie>? = null
     private val api = RetrofitModule.moviesApi
 
-    suspend fun getMovies(): List<MovieBase> = withContext(Dispatchers.IO) {
+    suspend fun getMovies(): List<Movie>? = withContext(Dispatchers.IO) {
         if (movies == null) {
             movies = loadMovies()
         }
-        return@withContext movies as List<MovieBase>
+        return@withContext movies
     }
 
-    private suspend fun loadMovies(): List<MovieBase> = withContext(Dispatchers.IO) {
-        val genres = api.genres().genres
+    private suspend fun loadMovies(): List<Movie> {
+        val genres = api.getGenres().genres
         val genresMap = genres.associateBy { it.id }
         val movies = api.getMovies().movies
 
-        return@withContext movies.map { jsonMovie ->
+        return  movies.map { movieDTO ->
 
-            MovieBase(
-                id = jsonMovie.id,
-                title = jsonMovie.title,
-                overview = jsonMovie.overview,
-                poster = "https://image.tmdb.org/t/p/w500" + jsonMovie.posterPicture,
-                backdrop = jsonMovie.backdropPicture,
-                ratings = jsonMovie.ratings,
-                numberOfRatings = jsonMovie.votesCount,
-                minimumAge = if (jsonMovie.adult) 16 else 13,
-                genres = jsonMovie.genreIds.map {
+            Movie(
+                id = movieDTO.id,
+                title = movieDTO.title,
+                overview = movieDTO.overview,
+                poster = PICTURE_BASE_URL + movieDTO.posterPicture,
+                backdrop = movieDTO.backdropPicture,
+                ratings = movieDTO.ratings,
+                ratingNumber = movieDTO.votesCount,
+                minimumAge = if (movieDTO.adult) LABEL_AGE_ADULT else LABEL_AGE_CHILD,
+                genres = movieDTO.genreIds.map {
                     Genre(genresMap[it]?.id ?: -1, genresMap[it]?.name ?: "")
-                }
+                },
+                null
             )
         }
     }
 
     suspend fun getMovieById(id: Int): Movie? = withContext(Dispatchers.IO) {
         val currentMovies = movies ?: getMovies()
-        val movieBase = currentMovies.firstOrNull { movie -> movie.id == id }
-        val actorsList = api.actors(id).actors
+        val movie = currentMovies?.firstOrNull { movie -> movie.id == id }
+        val actorsList = api.getActors(id).actors
 
-        val actorsNew = actorsList.map { json ->
+        val actorsNew = actorsList.map { actorDto ->
             Actor(
-                json.id,
-                json.name,
-                "https://image.tmdb.org/t/p/w500" + json.profilePath
+                actorDto.id,
+                actorDto.name,
+                PICTURE_BASE_URL + actorDto.profilePath
             )
         }
-        if (movieBase != null) return@withContext Movie(movieBase, actorsNew)
-        return@withContext null
+        movie?.actors = actorsNew
+        return@withContext movie
     }
 }
 

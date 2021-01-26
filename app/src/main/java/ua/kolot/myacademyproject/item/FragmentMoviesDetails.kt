@@ -96,13 +96,13 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
     }
 
     private fun updateViews(movie: Movie) {
-        titleView.text = movie.movieBase.title
-        categoriesView.text = movie.movieBase.genres.joinToString { it.name }
-        ratingsView.rating = movie.movieBase.ratings / 2
+        titleView.text = movie.title
+        categoriesView.text = movie.genres.joinToString()
+        ratingsView.rating = movie.ratings / 2
         reviewsView.text =
-            getString(R.string.some_reviews, movie.movieBase.numberOfRatings)
-        requiredAgeView.text = getString(R.string.minimum_age, movie.movieBase.minimumAge)
-        castView.visibility = if (movie.actors.isNotEmpty()) {
+            getString(R.string.some_reviews, movie.ratingNumber)
+        requiredAgeView.text = getString(R.string.minimum_age, movie.minimumAge)
+        castView.visibility = if (movie.actors?.isNotEmpty() == true) {
             View.VISIBLE
         } else {
             View.INVISIBLE
@@ -112,7 +112,7 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
 
         Glide
             .with(requireContext())
-            .load(movie.movieBase.poster)
+            .load(movie.poster)
             .placeholder(R.drawable.loading)
             .into(posterView)
     }

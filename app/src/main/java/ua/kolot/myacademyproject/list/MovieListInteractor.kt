@@ -1,11 +1,13 @@
 package ua.kolot.myacademyproject.list
 
-import ua.kolot.myacademyproject.data.MovieBase
+import kotlinx.serialization.ExperimentalSerializationApi
+import ua.kolot.myacademyproject.data.Movie
 import ua.kolot.myacademyproject.data.MoviesDataSource
 
+@ExperimentalSerializationApi
 class MovieListInteractor() {
 
-    suspend fun getMovies(): List<MovieBase> {
+    suspend fun getMovies(): List<Movie>? {
         return MoviesDataSource.getMovies()
     }
 }

@@ -2,12 +2,11 @@ package ua.kolot.myacademyproject.data.back
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ua.kolot.myacademyproject.data.back.ActorJson
 
 @Serializable
-class ActorsResult(
+class ActorsResponse(
     val id:Int,
 
     @SerialName("cast")
-    val actors: List<ActorJson>
+    val actors: List<ActorDTO>
 )

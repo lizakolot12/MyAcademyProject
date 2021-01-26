@@ -1,6 +1,14 @@
 package ua.kolot.myacademyproject.data
 
-data class Movie(
-    val movieBase: MovieBase,
-    val actors: List<Actor>
+class Movie(
+    val id: Int,
+    val title: String,
+    val overview: String,
+    val poster: String,
+    val backdrop: String,
+    val ratings: Float,
+    val ratingNumber: Int,
+    val minimumAge: Int,
+    val genres: List<Genre>,
+    var actors: List<Actor>?
 )

@@ -29,8 +29,8 @@ class ActorsAdapter(context: Context) :
         holder.bind(actors.get(position))
     }
 
-    fun updateData(actors: List<Actor>) {
-        this.actors = actors
+    fun updateData(actors: List<Actor>?) {
+        this.actors = actors?: emptyList()
         notifyDataSetChanged()
     }
 }

@@ -9,9 +9,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import ua.kolot.myacademyproject.R
-import ua.kolot.myacademyproject.data.MovieBase
+import ua.kolot.myacademyproject.data.Movie
 
 class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+    companion object {
+        private const val DURATION_DEFAULT = 100
+    }
 
     private val poster: ImageView = itemView.findViewById(R.id.iv_poster)
     private val titleView: TextView = itemView.findViewById(R.id.tv_movie_title)
@@ -21,7 +25,7 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val requiredAge: TextView = itemView.findViewById(R.id.tv_required_age)
     private val categories: TextView = itemView.findViewById(R.id.tv_categories)
 
-    fun bind(movie: MovieBase) {
+    fun bind(movie: Movie) {
         val context = itemView.context
 
         Glide.with(context)
@@ -31,8 +35,8 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .into(poster)
 
         titleView.text = movie.title
-        duration.text = context.getString(R.string.some_minutes, 100)
-        reviews.text = context.getString(R.string.some_reviews, movie.numberOfRatings)
+        duration.text = context.getString(R.string.some_minutes, DURATION_DEFAULT)
+        reviews.text = context.getString(R.string.some_reviews, movie.ratingNumber)
         ratings.rating = movie.ratings / 2
         requiredAge.text = context.getString(R.string.minimum_age, movie.minimumAge)
         categories.text = movie.genres.joinToString { it.name }
