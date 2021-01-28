@@ -1,5 +1,6 @@
 package ua.kolot.myacademyproject.data
 
+
 class Movie(
     val id: Int,
     val title: String,
