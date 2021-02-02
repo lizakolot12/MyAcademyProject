@@ -97,12 +97,12 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
 
     private fun updateViews(movie: Movie) {
         titleView.text = movie.title
-        categoriesView.text = movie.genres.joinToString { it.name }
+        categoriesView.text = movie.genres.joinToString()
         ratingsView.rating = movie.ratings / 2
         reviewsView.text =
-            getString(R.string.some_reviews, movie.numberOfRatings)
+            getString(R.string.some_reviews, movie.ratingNumber)
         requiredAgeView.text = getString(R.string.minimum_age, movie.minimumAge)
-        castView.visibility = if (movie.actors.isNotEmpty()) {
+        castView.visibility = if (movie.actors?.isNotEmpty() == true) {
             View.VISIBLE
         } else {
             View.INVISIBLE

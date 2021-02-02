@@ -16,8 +16,8 @@ class MovieListViewModel(private val movieListInteractor: MovieListInteractor) :
         Job() + Dispatchers.Default + exceptionHandler
     )
 
-    private val _movies = MutableLiveData<List<Movie>>(emptyList())
     private val _progress = MutableLiveData(false)
+    private val _movies = MutableLiveData<List<Movie>>(emptyList())
     private val _error = MutableLiveData<String>()
 
     val movies: LiveData<List<Movie>> = _movies

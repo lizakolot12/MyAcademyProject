@@ -1,12 +1,13 @@
 package ua.kolot.myacademyproject.list
 
-import android.content.Context
+import kotlinx.serialization.ExperimentalSerializationApi
 import ua.kolot.myacademyproject.data.Movie
 import ua.kolot.myacademyproject.data.MoviesDataSource
 
-class MovieListInteractor(private val context: Context) {
+@ExperimentalSerializationApi
+class MovieListInteractor() {
 
     suspend fun getMovies(): List<Movie>? {
-        return MoviesDataSource.getMovies(context)
+        return MoviesDataSource.getMovies()
     }
 }

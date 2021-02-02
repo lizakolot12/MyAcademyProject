@@ -12,8 +12,8 @@ class ViewModelFactory(private var context: Context) : ViewModelProvider.Factory
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = when (modelClass) {
-        MovieViewModel::class.java -> MovieViewModel(MovieInteractor(context))
-        MovieListViewModel::class.java -> MovieListViewModel(MovieListInteractor(context))
+        MovieViewModel::class.java -> MovieViewModel(MovieInteractor())
+        MovieListViewModel::class.java -> MovieListViewModel(MovieListInteractor())
         else -> throw IllegalArgumentException("$modelClass is not registered ViewModel")
     } as T
 }

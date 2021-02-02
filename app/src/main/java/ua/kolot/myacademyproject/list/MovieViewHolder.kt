@@ -13,6 +13,10 @@ import ua.kolot.myacademyproject.data.Movie
 
 class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+    companion object {
+        private const val DURATION_DEFAULT = 100
+    }
+
     private val poster: ImageView = itemView.findViewById(R.id.iv_poster)
     private val titleView: TextView = itemView.findViewById(R.id.tv_movie_title)
     private val duration: TextView = itemView.findViewById(R.id.tv_duration)
@@ -31,8 +35,8 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .into(poster)
 
         titleView.text = movie.title
-        duration.text = context.getString(R.string.some_minutes, movie.runtime)
-        reviews.text = context.getString(R.string.some_reviews, movie.numberOfRatings)
+        duration.text = context.getString(R.string.some_minutes, DURATION_DEFAULT)
+        reviews.text = context.getString(R.string.some_reviews, movie.ratingNumber)
         ratings.rating = movie.ratings / 2
         requiredAge.text = context.getString(R.string.minimum_age, movie.minimumAge)
         categories.text = movie.genres.joinToString { it.name }
