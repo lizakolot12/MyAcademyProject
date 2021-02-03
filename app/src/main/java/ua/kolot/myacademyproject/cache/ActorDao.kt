@@ -7,7 +7,7 @@ import androidx.room.Query
 
 @Dao
 interface ActorDao {
-    @Query("SELECT * FROM " + Contract.TABLE_NAME_ACTORS)
+    @Query("SELECT * FROM actors")
     fun getAll(): List<ActorEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -1,43 +1,40 @@
 package ua.kolot.myacademyproject.list
 
-import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import kotlinx.serialization.ExperimentalSerializationApi
 import ua.kolot.myacademyproject.cache.CacheDataSource
 import ua.kolot.myacademyproject.cache.GenreEntity
+import ua.kolot.myacademyproject.cache.Mapper
 import ua.kolot.myacademyproject.data.Movie
 import ua.kolot.myacademyproject.data.MoviesNetworkDataSource
-import ua.kolot.myacademyproject.mapMovieDtoWithoutActors
-import ua.kolot.myacademyproject.mapToMovie
 
 @ExperimentalSerializationApi
-class MovieListInteractor(appContext: Context) {
+class MovieListInteractor(
+    private val cacheDataSource: CacheDataSource,
+    private val networkDataSource: MoviesNetworkDataSource
+) {
 
-    private val cacheDataSource = CacheDataSource(appContext)
-    private val networkDataSource = MoviesNetworkDataSource
 
-    private val mutableMovies: MutableLiveData<List<Movie>> = MutableLiveData()
-    val movies: LiveData<List<Movie>> = mutableMovies
+    suspend fun getCachedMovies(): List<Movie> {
+        return cacheDataSource.getMoviesWithGenresAndActors()
+            .map { item -> Mapper.mapToMovie(item) }
 
-    suspend fun updateMovies() {
-        val initialList =
-            cacheDataSource.getMoviesWithGenresAndActors().map { item -> mapToMovie(item) }
+    }
 
-        mutableMovies.postValue(initialList)
+    suspend fun getRefreshedMovies(): List<Movie> {
 
         val genres = networkDataSource.getGenres()
         val genresEntity =
-            genres.map { genresDto -> GenreEntity(genresDto.id.toLong(), genresDto.name) }
+            genres.map { genresDto -> GenreEntity(genresDto.id, genresDto.name) }
         cacheDataSource.saveGenres(genresEntity)
 
         val movies = networkDataSource.getMovies()
         val moviesRes = movies.map { movieDTO ->
-            mapMovieDtoWithoutActors(movieDTO, genres)
+            Mapper.mapMovieDtoWithoutActors(movieDTO, genres)
         }
 
         cacheDataSource.saveMoviesWithGenres(moviesRes)
 
-        mutableMovies.postValue(moviesRes)
+        return moviesRes
     }
+
 }

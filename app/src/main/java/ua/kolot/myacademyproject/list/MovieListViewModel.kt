@@ -21,7 +21,8 @@ class MovieListViewModel(private val movieListInteractor: MovieListInteractor) :
     private val _progress = MutableLiveData(false)
     private val _error = MutableLiveData<String>()
 
-    val movies: LiveData<List<Movie>> = movieListInteractor.movies
+    private val _mutableMovies = MutableLiveData<List<Movie>>()
+    val movies: LiveData<List<Movie>> = _mutableMovies
     val progress: LiveData<Boolean> = _progress
     val error: LiveData<String> = _error
 
@@ -30,7 +31,11 @@ class MovieListViewModel(private val movieListInteractor: MovieListInteractor) :
             _progress.postValue(true)
 
             try {
-                movieListInteractor.updateMovies()
+                val cached = movieListInteractor.getCachedMovies()
+                _mutableMovies.postValue(cached)
+                if (cached.isEmpty()) {
+                    _mutableMovies.postValue(movieListInteractor.getRefreshedMovies())
+                }
             } finally {
                 _progress.postValue(false)
             }

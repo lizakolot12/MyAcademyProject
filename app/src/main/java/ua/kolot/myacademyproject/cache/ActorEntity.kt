@@ -4,16 +4,16 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = Contract.TABLE_NAME_ACTORS)
+@Entity(tableName = "actors")
 class ActorEntity(
     @PrimaryKey
-    @ColumnInfo(name = Contract.COLUMN_NAME_ID_ACTOR)
-    val id: Long,
+    @ColumnInfo(name = "idActor")
+    val id: Int,
 
-    @ColumnInfo(name = Contract.COLUMN_NAME_NAME)
+    @ColumnInfo(name = "name")
     val name: String,
 
-    @ColumnInfo(name = Contract.COLUMN_NAME_PICTURE)
+    @ColumnInfo(name = "picture")
     val picture: String?
 )
 

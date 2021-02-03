@@ -1,6 +1,5 @@
 package ua.kolot.myacademyproject.data
 
-
 class Movie(
     val id: Int,
     val title: String,
@@ -11,5 +10,5 @@ class Movie(
     val ratingNumber: Int,
     val minimumAge: Int,
     val genres: List<Genre>,
-    var actors: List<Actor>?
+    var actors: List<Actor> = emptyList()
 )

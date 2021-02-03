@@ -1,8 +1,8 @@
 package ua.kolot.myacademyproject.cache
 
 object Contract {
-    const val DATABASE_NAME = "movies.db"
-    const val TABLE_NAME_MOVIES = "movies"
+    /*const val DATABASE_NAME = "movies.db"
+
     const val TABLE_NAME_GENRES = "genres"
     const val TABLE_NAME_ACTORS = "actors"
     const val TABLE_NAME_MOVIE_ACTORS = "movie_actors"
@@ -18,5 +18,5 @@ object Contract {
     const val COLUMN_NAME_PICTURE = "picture"
     const val COLUMN_NAME_ID_ACTOR = "idActor"
     const val COLUMN_NAME_ID_GENRE = "idGenre"
-    const val COLUMN_NAME_ID_MOVIE = "idMovie"
+    const val COLUMN_NAME_ID_MOVIE = "idMovie"*/
 }

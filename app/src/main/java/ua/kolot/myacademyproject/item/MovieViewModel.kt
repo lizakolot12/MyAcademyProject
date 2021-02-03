@@ -1,6 +1,8 @@
 package ua.kolot.myacademyproject.item
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import ua.kolot.myacademyproject.data.Movie
@@ -8,17 +10,20 @@ import ua.kolot.myacademyproject.data.Movie
 @ExperimentalSerializationApi
 class MovieViewModel(private val movieInteractor: MovieInteractor) : ViewModel() {
 
-    private val _currentMovie = MediatorLiveData<Movie>()
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        _error.postValue(exception.message)
+    }
+    private var scope = CoroutineScope(
+        Job() + Dispatchers.Default + exceptionHandler
+    )
+
+    private val _currentMovie = MutableLiveData<Movie>()
     private val _progress = MutableLiveData<Boolean>()
-    private val _error = MediatorLiveData<String>()
+    private val _error = MutableLiveData<String>()
 
     val currentMovie: LiveData<Movie> = _currentMovie
     val progress: LiveData<Boolean> = _progress
     val error: LiveData<String> = _error
-
-    init {
-        _error.addSource(movieInteractor.error) { error -> _error.postValue(error) }
-    }
 
     fun getMovie(movieId: Int?) {
         if (movieId == null) {
@@ -27,11 +32,18 @@ class MovieViewModel(private val movieInteractor: MovieInteractor) : ViewModel()
         }
 
         _progress.value = true
-        try {
-            val movieLiveData = movieInteractor.getMovieById(movieId.toLong())
-            _currentMovie.addSource(movieLiveData) { movie -> _currentMovie.postValue(movie) }
-        } finally {
-            _progress.postValue(false)
+        scope.launch {
+            _progress.postValue(true)
+
+            try {
+                val cached = movieInteractor.getCachedMovieById(movieId)
+                _currentMovie.postValue(cached)
+                if (cached.actors.isEmpty()) {
+                    _currentMovie.postValue(movieInteractor.getRefreshedMovieById(movieId))
+                }
+            } finally {
+                _progress.postValue(false)
+            }
         }
     }
 

@@ -5,8 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [MovieEntity::class, ActorEntity::class,
-    GenreEntity::class, MovieGenreCrossRef::class,  MovieActorCrossRef::class], version = 1)
+@Database(
+    entities = [MovieEntity::class, ActorEntity::class,
+        GenreEntity::class, MovieGenreCrossRef::class, MovieActorCrossRef::class], version = 1
+)
 
 abstract class AppDatabase : RoomDatabase() {
 
@@ -16,11 +18,20 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun moviesWithGenresAndActorsDao(): MovieWithGenresAndActorsDao
 
     companion object {
+        private const val DATABASE_NAME = "movies.db"
 
-        fun create(applicationContext: Context): AppDatabase = Room.databaseBuilder(
+        @Volatile
+        private var INSTANCE: AppDatabase? = null
+
+        fun getInstance(context: Context): AppDatabase =
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: create(context).also { INSTANCE = it }
+            }
+
+        private fun create(applicationContext: Context): AppDatabase = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java,
-            Contract.DATABASE_NAME
+            DATABASE_NAME
         )
             .fallbackToDestructiveMigration()
             .build()

@@ -6,12 +6,12 @@ import androidx.room.*
 interface MovieWithGenresAndActorsDao {
 
     @Transaction
-    @Query("SELECT * FROM "+ Contract.TABLE_NAME_MOVIES)
+    @Query("SELECT * FROM movies")
     fun getMovieWithActorsAndGenres(): List<MovieWithActorsAndGenres>
 
     @Transaction
-    @Query("SELECT * FROM "+ Contract.TABLE_NAME_MOVIES + " WHERE " + Contract.COLUMN_NAME_ID_MOVIE + " = :movieId")
-    fun getMovieWithActorsAndGenresById(movieId:Long): List<MovieWithActorsAndGenres>
+    @Query("SELECT * FROM movies WHERE idMovie = :movieId")
+    fun getMovieWithActorsAndGenresById(movieId: Int): MovieWithActorsAndGenres
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(movies: List<MovieGenreCrossRef>)

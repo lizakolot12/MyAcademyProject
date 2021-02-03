@@ -4,30 +4,30 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = Contract.TABLE_NAME_MOVIES)
+@Entity(tableName = "movies")
 class MovieEntity(
     @PrimaryKey
-    @ColumnInfo(name = Contract.COLUMN_NAME_ID_MOVIE)
-    val id: Long,
+    @ColumnInfo(name ="idMovie")
+    val id: Int,
 
-    @ColumnInfo(name = Contract.COLUMN_NAME_TITLE)
+    @ColumnInfo(name = "title")
     val title: String,
 
-    @ColumnInfo(name = Contract.COLUMN_NAME_OVERVIEW)
+    @ColumnInfo(name = "overview")
     val overview: String,
 
-    @ColumnInfo(name = Contract.COLUMN_NAME_POSTER)
+    @ColumnInfo(name = "poster")
     val poster: String,
 
-    @ColumnInfo(name = Contract.COLUMN_NAME_BACKDROP)
+    @ColumnInfo(name = "backdrop")
     val backdrop: String,
 
-    @ColumnInfo(name = Contract.COLUMN_NAME_RATINGS)
+    @ColumnInfo(name = "ratings")
     val ratings: Float,
 
-    @ColumnInfo(name = Contract.COLUMN_NAME_RATING_NUMBER)
+    @ColumnInfo(name = "ratingNumber")
     val ratingNumber: Int,
 
-    @ColumnInfo(name = Contract.COLUMN_NAME_MIN_AGE)
+    @ColumnInfo(name = "minimumAge")
     val minimumAge: Int,
 )

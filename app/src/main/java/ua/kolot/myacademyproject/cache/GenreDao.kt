@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Dao
 interface GenreDao {
-    @Query("SELECT * FROM " + Contract.TABLE_NAME_GENRES)
+    @Query("SELECT * FROM genres")
     fun getAll(): List<GenreEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
