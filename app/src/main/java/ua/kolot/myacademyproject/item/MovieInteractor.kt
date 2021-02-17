@@ -12,20 +12,16 @@ class MovieInteractor(
     private val networkDataSource: MoviesNetworkDataSource
 ) {
 
-    fun getCachedMovieById(movieId: Int): Movie {
+    fun getCachedMovieById(movieId: Int): Movie? {
         return Mapper.mapToMovie(cacheDataSource.getMoviesWithGenresAndActorsByMovieId(movieId = movieId))
     }
 
-    suspend fun getRefreshedMovieById(movieId: Int): Movie {
+    suspend fun getRefreshedMovieById(movieId: Int): Movie? {
         val updatedActorsDto = networkDataSource.getActorsByMovieId(movieId.toInt())
-        val updatedActorsEntity = updatedActorsDto.map { actorDto ->
-            Mapper.mapToActorEntity(actorDto)
-        }
+        val updatedActorsEntity = updatedActorsDto.map(Mapper::mapToActorEntity)
         cacheDataSource.saveMovieWithActors(movieId, updatedActorsEntity)
 
-        val updatedActors = updatedActorsDto.map { actorDto ->
-            Mapper.mapToActor(actorDto)
-        }
+        val updatedActors = updatedActorsDto.map(Mapper::mapToActor)
         return Mapper.mapToMovie(
             cacheDataSource.getMoviesWithGenresAndActorsByMovieId(movieId = movieId),
             updatedActors

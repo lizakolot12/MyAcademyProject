@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [MovieEntity::class, ActorEntity::class,
-        GenreEntity::class, MovieGenreCrossRef::class, MovieActorCrossRef::class], version = 1
+        GenreEntity::class, MovieGenreCrossRefEntity::class, MovieActorCrossRefEntity::class], version = 1
 )
 
 abstract class AppDatabase : RoomDatabase() {

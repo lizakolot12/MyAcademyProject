@@ -1,6 +1,5 @@
 package ua.kolot.myacademyproject
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -12,10 +11,10 @@ import ua.kolot.myacademyproject.list.MovieListInteractor
 import ua.kolot.myacademyproject.list.MovieListViewModel
 
 @ExperimentalSerializationApi
-class ViewModelFactory(private var context: Context) : ViewModelProvider.Factory {
-
-    private val cacheDataSource: CacheDataSource = CacheDataSource(context)
-    private val moviesNetworkDataSource = MoviesNetworkDataSource
+class ViewModelFactory(
+    private val cacheDataSource: CacheDataSource,
+    private val moviesNetworkDataSource: MoviesNetworkDataSource
+) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = when (modelClass) {
@@ -27,7 +26,8 @@ class ViewModelFactory(private var context: Context) : ViewModelProvider.Factory
         )
         MovieListViewModel::class.java -> MovieListViewModel(
             MovieListInteractor(
-                cacheDataSource, moviesNetworkDataSource
+                cacheDataSource,
+                moviesNetworkDataSource
             )
         )
         else -> throw IllegalArgumentException("$modelClass is not registered ViewModel")

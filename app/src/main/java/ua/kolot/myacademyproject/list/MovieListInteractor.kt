@@ -13,11 +13,8 @@ class MovieListInteractor(
     private val networkDataSource: MoviesNetworkDataSource
 ) {
 
-
     suspend fun getCachedMovies(): List<Movie> {
-        return cacheDataSource.getMoviesWithGenresAndActors()
-            .map { item -> Mapper.mapToMovie(item) }
-
+        return cacheDataSource.getMoviesWithGenresAndActors().mapNotNull(Mapper::mapToMovie)
     }
 
     suspend fun getRefreshedMovies(): List<Movie> {
@@ -36,5 +33,4 @@ class MovieListInteractor(
 
         return moviesRes
     }
-
 }

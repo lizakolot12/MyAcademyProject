@@ -1,31 +1,33 @@
 package ua.kolot.myacademyproject.cache
 
-import android.content.Context
 import ua.kolot.myacademyproject.data.Movie
 
-class CacheDataSource(appContext: Context) {
-
-    private val db = AppDatabase.getInstance(context = appContext)
+class CacheDataSource(
+    private val genreDao: GenreDao,
+    private val actorDao: ActorDao,
+    private val moviesWithGenresAndActorsDao: MovieWithGenresAndActorsDao,
+    private val movieDao: MovieDao
+) {
 
     fun saveGenres(genres: List<GenreEntity>) {
-        db.genreDao().insertAll(genres)
+        genreDao.insertAll(genres)
     }
 
     private fun saveActors(actors: List<ActorEntity>) {
-        db.actorDao().insertAll(actors)
+        actorDao.insertAll(actors)
     }
 
     fun saveMovieWithActors(movieId: Int, actors: List<ActorEntity>) {
         saveActors(actors)
-        val list = actors.map { actorEntity -> MovieActorCrossRef(movieId, actorEntity.id) }
-        db.moviesWithGenresAndActorsDao().insertAllActors(list)
+        val list = actors.map { actorEntity -> MovieActorCrossRefEntity(movieId, actorEntity.id) }
+        moviesWithGenresAndActorsDao.insertAllActors(list)
     }
 
     fun saveMoviesWithGenres(movies: List<Movie>) {
-        val resultMovieGenreCrossRef = mutableListOf<MovieGenreCrossRef>()
+        val resultMovieGenreCrossRef = mutableListOf<MovieGenreCrossRefEntity>()
         val resultMovies = movies.map { movie ->
             resultMovieGenreCrossRef.addAll(movie.genres.map { genre ->
-                MovieGenreCrossRef(
+                MovieGenreCrossRefEntity(
                     movie.id,
                     genre.id
                 )
@@ -42,15 +44,15 @@ class CacheDataSource(appContext: Context) {
             )
         }
 
-        db.movieDao().insertAll(resultMovies)
-        db.moviesWithGenresAndActorsDao().insertAll(resultMovieGenreCrossRef)
+        movieDao.insertAll(resultMovies)
+        moviesWithGenresAndActorsDao.insertAll(resultMovieGenreCrossRef)
     }
 
     fun getMoviesWithGenresAndActors(): List<MovieWithActorsAndGenres> {
-        return db.moviesWithGenresAndActorsDao().getMovieWithActorsAndGenres()
+        return moviesWithGenresAndActorsDao.getMovieWithActorsAndGenres()
     }
 
-    fun getMoviesWithGenresAndActorsByMovieId(movieId: Int): MovieWithActorsAndGenres {
-        return db.moviesWithGenresAndActorsDao().getMovieWithActorsAndGenresById(movieId)
+    fun getMoviesWithGenresAndActorsByMovieId(movieId: Int): MovieWithActorsAndGenres? {
+        return moviesWithGenresAndActorsDao.getMovieWithActorsAndGenresById(movieId)
     }
 }

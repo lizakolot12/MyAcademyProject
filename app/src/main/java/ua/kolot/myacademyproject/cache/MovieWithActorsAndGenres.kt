@@ -7,16 +7,16 @@ import androidx.room.Relation
 data class MovieWithActorsAndGenres(
     @Embedded val movieEntity: MovieEntity,
     @Relation(
-        parentColumn = "idMovie",
-        entityColumn = "idActor",
-        associateBy = Junction(MovieActorCrossRef::class)
+        parentColumn = "movieId",
+        entityColumn = "actorId",
+        associateBy = Junction(MovieActorCrossRefEntity::class)
     )
     val actors: List<ActorEntity>?,
 
     @Relation(
-        parentColumn = "idMovie",
-        entityColumn = "idGenre",
-        associateBy = Junction(MovieGenreCrossRef::class),
+        parentColumn = "movieId",
+        entityColumn = "genreId",
+        associateBy = Junction(MovieGenreCrossRefEntity::class),
     )
     val genres: List<GenreEntity>
 )

@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kotlinx.serialization.ExperimentalSerializationApi
+import ua.kolot.myacademyproject.MainModule
 import ua.kolot.myacademyproject.R
-import ua.kolot.myacademyproject.ViewModelFactory
 import ua.kolot.myacademyproject.data.Movie
 
+@ExperimentalSerializationApi
 class FragmentMoviesDetails : Fragment(), View.OnClickListener {
 
     companion object {
@@ -44,7 +46,9 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
 
     private var actorAdapter: ActorsAdapter? = null
 
-    private val viewModel: MovieViewModel by viewModels { ViewModelFactory(requireContext()) }
+    private val viewModel: MovieViewModel by viewModels {
+        MainModule.getViewModelFactory(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,12 +101,12 @@ class FragmentMoviesDetails : Fragment(), View.OnClickListener {
 
     private fun updateViews(movie: Movie) {
         titleView.text = movie.title
-        categoriesView.text = movie.genres.joinToString()
+        categoriesView.text = movie.genres.joinToString { it.name }
         ratingsView.rating = movie.ratings / 2
         reviewsView.text =
             getString(R.string.some_reviews, movie.ratingNumber)
         requiredAgeView.text = getString(R.string.minimum_age, movie.minimumAge)
-        castView.visibility = if (movie.actors?.isNotEmpty() == true) {
+        castView.visibility = if (movie.actors.isNotEmpty()) {
             View.VISIBLE
         } else {
             View.INVISIBLE

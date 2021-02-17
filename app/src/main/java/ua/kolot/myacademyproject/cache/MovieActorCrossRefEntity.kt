@@ -5,28 +5,28 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 
 @Entity(
-    primaryKeys = ["idMovie", "idActor"],
+    primaryKeys = ["movieId", "actorId"],
     tableName = "movie_actor",
     foreignKeys = [
         ForeignKey(
             entity = MovieEntity::class,
-            parentColumns = ["idMovie"],
-            childColumns = ["idMovie"],
+            parentColumns = ["movieId"],
+            childColumns = ["movieId"],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = ActorEntity::class,
-            parentColumns = ["idActor"],
-            childColumns = ["idActor"],
+            parentColumns = ["actorId"],
+            childColumns = ["actorId"],
             onDelete = ForeignKey.NO_ACTION
         )
     ]
 )
-data class MovieActorCrossRef(
+data class MovieActorCrossRefEntity(
 
-    @ColumnInfo(name = "idMovie")
-    val idMovie: Int,
+    @ColumnInfo(name = "movieId")
+    val movieId: Int,
 
-    @ColumnInfo(name = "idActor")
-    val idActor: Int
+    @ColumnInfo(name = "actorId")
+    val actorId: Int
 )

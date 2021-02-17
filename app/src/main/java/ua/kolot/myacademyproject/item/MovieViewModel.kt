@@ -38,7 +38,7 @@ class MovieViewModel(private val movieInteractor: MovieInteractor) : ViewModel()
             try {
                 val cached = movieInteractor.getCachedMovieById(movieId)
                 _currentMovie.postValue(cached)
-                if (cached.actors.isEmpty()) {
+                if (cached?.actors?.isEmpty() != false) {
                     _currentMovie.postValue(movieInteractor.getRefreshedMovieById(movieId))
                 }
             } finally {

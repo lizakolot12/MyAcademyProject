@@ -10,19 +10,19 @@ interface MovieWithGenresAndActorsDao {
     fun getMovieWithActorsAndGenres(): List<MovieWithActorsAndGenres>
 
     @Transaction
-    @Query("SELECT * FROM movies WHERE idMovie = :movieId")
-    fun getMovieWithActorsAndGenresById(movieId: Int): MovieWithActorsAndGenres
+    @Query("SELECT * FROM movies WHERE movieId = :movieId")
+    fun getMovieWithActorsAndGenresById(movieId: Int): MovieWithActorsAndGenres?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(movies: List<MovieGenreCrossRef>)
+    fun insertAll(movies: List<MovieGenreCrossRefEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(movie: MovieGenreCrossRef)
+    fun insert(movie: MovieGenreCrossRefEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(movie: MovieActorCrossRef)
+    fun insert(movie: MovieActorCrossRefEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllActors(movies: List<MovieActorCrossRef>)
+    fun insertAllActors(movies: List<MovieActorCrossRefEntity>)
 
 }

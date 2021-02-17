@@ -12,29 +12,32 @@ object Mapper {
     private const val LABEL_AGE_ADULT = 16
     private const val LABEL_AGE_CHILD = 13
 
-    fun mapToMovie(movieCached: MovieWithActorsAndGenres): Movie {
-        return Movie(movieCached.movieEntity.id.toInt(),
-            movieCached.movieEntity.title,
-            movieCached.movieEntity.overview,
-            movieCached.movieEntity.poster,
-            movieCached.movieEntity.backdrop,
-            movieCached.movieEntity.ratings,
-            movieCached.movieEntity.ratingNumber,
-            movieCached.movieEntity.minimumAge,
-            movieCached.genres.map { genresEntity ->
-                Genre(
-                    genresEntity.id.toInt(),
-                    genresEntity.name
-                )
-            },
-            movieCached.actors?.map { actorEntity ->
-                Actor(
-                    actorEntity.id,
-                    actorEntity.name,
-                    actorEntity.picture
-                )
-            }?: emptyList()
-        )
+    fun mapToMovie(movieCached: MovieWithActorsAndGenres?): Movie? {
+        return movieCached?.let {
+            Movie(
+                movieCached.movieEntity.id.toInt(),
+                movieCached.movieEntity.title,
+                movieCached.movieEntity.overview,
+                movieCached.movieEntity.poster,
+                movieCached.movieEntity.backdrop,
+                movieCached.movieEntity.ratings,
+                movieCached.movieEntity.ratingNumber,
+                movieCached.movieEntity.minimumAge,
+                movieCached.genres.map { genresEntity ->
+                    Genre(
+                        genresEntity.id.toInt(),
+                        genresEntity.name
+                    )
+                },
+                movieCached.actors?.map { actorEntity ->
+                    Actor(
+                        actorEntity.id,
+                        actorEntity.name,
+                        actorEntity.picture
+                    )
+                } ?: emptyList()
+            )
+        }
     }
 
     fun mapMovieDtoWithoutActors(movieDTO: MovieDTO, genres: List<GenreDTO>): Movie {
@@ -71,25 +74,27 @@ object Mapper {
     }
 
     fun mapToMovie(
-        movieCached: MovieWithActorsAndGenres,
+        movieCached: MovieWithActorsAndGenres?,
         updatedActors: List<Actor>
-    ): Movie {
-        return Movie(
-            movieCached.movieEntity.id.toInt(),
-            movieCached.movieEntity.title,
-            movieCached.movieEntity.overview,
-            movieCached.movieEntity.poster,
-            movieCached.movieEntity.backdrop,
-            movieCached.movieEntity.ratings,
-            movieCached.movieEntity.ratingNumber,
-            movieCached.movieEntity.minimumAge,
-            movieCached.genres.map { genresEntity ->
-                Genre(
-                    genresEntity.id.toInt(),
-                    genresEntity.name
-                )
-            },
-            updatedActors
-        )
+    ): Movie? {
+        return movieCached?.let {
+            Movie(
+                movieCached.movieEntity.id.toInt(),
+                movieCached.movieEntity.title,
+                movieCached.movieEntity.overview,
+                movieCached.movieEntity.poster,
+                movieCached.movieEntity.backdrop,
+                movieCached.movieEntity.ratings,
+                movieCached.movieEntity.ratingNumber,
+                movieCached.movieEntity.minimumAge,
+                movieCached.genres.map { genresEntity ->
+                    Genre(
+                        genresEntity.id,
+                        genresEntity.name
+                    )
+                },
+                updatedActors
+            )
+        }
     }
 }
