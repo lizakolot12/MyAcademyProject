@@ -4,14 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
+import kotlinx.serialization.ExperimentalSerializationApi
 import ua.kolot.myacademyproject.data.Movie
 
+@ExperimentalSerializationApi
 class MovieViewModel(private val movieInteractor: MovieInteractor) : ViewModel() {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         _error.postValue(exception.message)
     }
-
     private var scope = CoroutineScope(
         Job() + Dispatchers.Default + exceptionHandler
     )
@@ -32,17 +33,18 @@ class MovieViewModel(private val movieInteractor: MovieInteractor) : ViewModel()
 
         _progress.value = true
         scope.launch {
+            _progress.postValue(true)
+
             try {
-                val movie = movieInteractor.getMovieById(movieId)
-                _currentMovie.postValue(movie)
+                val cached = movieInteractor.getCachedMovieById(movieId)
+                _currentMovie.postValue(cached)
+                if (cached?.actors?.isEmpty() != false) {
+                    _currentMovie.postValue(movieInteractor.getRefreshedMovieById(movieId))
+                }
             } finally {
                 _progress.postValue(false)
             }
         }
     }
 
-    override fun onCleared() {
-        scope.cancel()
-        super.onCleared()
-    }
 }

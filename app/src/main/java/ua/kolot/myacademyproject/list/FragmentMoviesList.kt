@@ -12,11 +12,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.serialization.ExperimentalSerializationApi
+import ua.kolot.myacademyproject.MainModule
 import ua.kolot.myacademyproject.R
-import ua.kolot.myacademyproject.ViewModelFactory
 import ua.kolot.myacademyproject.data.Movie
 import ua.kolot.myacademyproject.util.SpacingItemDecorator
 
+@ExperimentalSerializationApi
 class FragmentMoviesList : Fragment() {
 
     companion object {
@@ -32,7 +34,11 @@ class FragmentMoviesList : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
 
-    private val viewModel: MovieListViewModel by viewModels { ViewModelFactory(requireContext()) }
+    private val viewModel: MovieListViewModel by viewModels {
+        MainModule.getViewModelFactory(
+            requireContext()
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

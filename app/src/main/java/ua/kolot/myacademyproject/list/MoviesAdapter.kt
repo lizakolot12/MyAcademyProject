@@ -1,6 +1,7 @@
 package ua.kolot.myacademyproject.list
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,7 @@ class MoviesAdapter(
 
     fun updateData(movies: List<Movie>) {
         this.movies = movies
+        Log.e("TEST", " update data")
         notifyDataSetChanged()
     }
 }

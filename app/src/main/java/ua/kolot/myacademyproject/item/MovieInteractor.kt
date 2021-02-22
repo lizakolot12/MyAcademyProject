@@ -1,13 +1,31 @@
 package ua.kolot.myacademyproject.item
 
 import kotlinx.serialization.ExperimentalSerializationApi
+import ua.kolot.myacademyproject.cache.CacheDataSource
+import ua.kolot.myacademyproject.cache.Mapper
 import ua.kolot.myacademyproject.data.Movie
-import ua.kolot.myacademyproject.data.MoviesDataSource
+import ua.kolot.myacademyproject.data.MoviesNetworkDataSource
 
-class MovieInteractor() {
+@ExperimentalSerializationApi
+class MovieInteractor(
+    private val cacheDataSource: CacheDataSource,
+    private val networkDataSource: MoviesNetworkDataSource
+) {
 
-    @ExperimentalSerializationApi
-    suspend fun getMovieById(movieId:Int): Movie? {
-        return MoviesDataSource.getMovieById(movieId)
+    fun getCachedMovieById(movieId: Int): Movie? {
+        return Mapper.mapToMovie(cacheDataSource.getMoviesWithGenresAndActorsByMovieId(movieId = movieId))
     }
+
+    suspend fun getRefreshedMovieById(movieId: Int): Movie? {
+        val updatedActorsDto = networkDataSource.getActorsByMovieId(movieId.toInt())
+        val updatedActorsEntity = updatedActorsDto.map(Mapper::mapToActorEntity)
+        cacheDataSource.saveMovieWithActors(movieId, updatedActorsEntity)
+
+        val updatedActors = updatedActorsDto.map(Mapper::mapToActor)
+        return Mapper.mapToMovie(
+            cacheDataSource.getMoviesWithGenresAndActorsByMovieId(movieId = movieId),
+            updatedActors
+        )
+    }
+
 }

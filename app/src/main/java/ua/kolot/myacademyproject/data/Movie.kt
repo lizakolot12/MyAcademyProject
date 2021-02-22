@@ -10,5 +10,5 @@ class Movie(
     val ratingNumber: Int,
     val minimumAge: Int,
     val genres: List<Genre>,
-    var actors: List<Actor>?
+    var actors: List<Actor> = emptyList()
 )
